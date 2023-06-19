@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1021442659528",
+    "project_id": "arturul",
+    "storage_bucket": "arturul.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021442659528:android:63d7b60239ecaa643201fd",
+        "android_client_info": {
+          "package_name": "com.example.erthurul"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021442659528-vvnd72b31blrcnpbujmhdu72f3c36cie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_244DJ9nMxhWFZcciouTLSjaataVwYls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021442659528-vvnd72b31blrcnpbujmhdu72f3c36cie.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1021442659528-arcb0m4bnrueh7roiv2pat3js4vtv032.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.erthurul"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
