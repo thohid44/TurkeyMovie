@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
@@ -29,19 +30,15 @@ class WebViewPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-          body: WillPopScope(
-        onWillPop: () async {
-          if (await controller.canGoBack()) {
-            controller.goBack();
-            return false;
-          } else {
-            return true;
-          }
-        },
-        child: WebViewWidget(
-          controller: controller,
-        ),
-      )),
+          body: InAppWebView(
+            initialUrlRequest: URLRequest(url: Uri.parse("https://www.youtube.com/watch?v=nZIR2kWqj48")), 
+            onWebViewCreated: ((InAppWebViewController controller) {
+ _webViewController = controller as WebViewController; 
+            }),
+          )
+          
+          
+          ),
     );
   }
 }
