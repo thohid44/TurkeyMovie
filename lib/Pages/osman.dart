@@ -1,8 +1,9 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:erthurul/Pages/web_View_page.dart';
+
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+
 class OsmanPage extends StatefulWidget {
   const OsmanPage({super.key, required this.title});
 
@@ -13,6 +14,7 @@ class OsmanPage extends StatefulWidget {
 }
 
 class _OsmanPageState extends State<OsmanPage> {
+  var data = Get.arguments; 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,7 +24,7 @@ class _OsmanPageState extends State<OsmanPage> {
           ),
           body: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection('turkeyFilm')
+                  .collection(data)
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,14 +50,14 @@ class _OsmanPageState extends State<OsmanPage> {
                               style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          subtitle: Container(
-                            child: Text(
-                              snapshot.data!.docs[index]
-                                  .get("subTitle")
-                                  .toString(),
-                              style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                          // subtitle: Container(
+                          //   child: Text(
+                          //     snapshot.data!.docs[index]
+                          //         .get("subTitle")
+                          //         .toString(),
+                          //     style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+                          //   ),
+                          // ),
                           trailing: IconButton(onPressed:(){
                                       
                           }, icon: Icon(Icons.copy)),

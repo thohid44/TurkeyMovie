@@ -1,8 +1,12 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erthurul/Pages/osman.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'admin/adminPage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,12 +20,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         title: 'Turkey Movie',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomePage());
+        home: AdminPage());
   }
 }
 
@@ -35,47 +39,51 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Turkey Series"),
-          centerTitle: true,
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(10),
-          child: GridView(
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, 
-                crossAxisSpacing: 10, 
-                mainAxisSpacing: 10
-                ),
-            children: [
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OsmanPage(title: "Kurulus Osman"))); 
-                  },
-                  child: ItemWidget("Arthurul")), 
-                    InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OsmanPage(title: "Kurulus Osman"))); 
-                  },
-                  child: ItemWidget("Arthurul")),
-                    InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OsmanPage(title: "Kurulus Osman"))); 
-                  },
-                  child: ItemWidget("Arthurul"))
-            ],
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text("test"),
           ),
-        ));
+          body: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('series')
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      print(snapshot.data!.docs);
+                      return Card(
+                        child: ListTile(
+                          
+                          onTap: () async{
+                        FlutterClipboard.copy(   snapshot.data!.docs[index].get("name").toString());
+                                           
+                          },
+                          title: Container(
+                            child: Text(
+                              snapshot.data!.docs[index].get("name").toString(),
+                              style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                       
+                          trailing: IconButton(onPressed:(){
+                            Get.to(OsmanPage(title:  snapshot.data!.docs[index].get("name").toString() ), 
+                            arguments:   snapshot.data!.docs[index].get("value").toString()
+                            );
+                                      
+                          }, icon: Icon(Icons.arrow_forward)),
+                        ),
+                      );
+                    });
+              })),
+    );
   }
 }
 
@@ -88,9 +96,10 @@ class ItemWidget extends StatelessWidget {
     return Card(
       elevation: 5,
       child: Container(
+        height: 50,
         
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: Colors.deepPurple),
+        decoration: BoxDecoration(color: Colors.purple),
         child: Text(
           "$title",
           style: TextStyle(
