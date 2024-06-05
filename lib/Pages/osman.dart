@@ -20,11 +20,11 @@ class _OsmanPageState extends State<OsmanPage> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: Text(widget.title),
+            title: Text("Product"),
           ),
           body: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection(data)
+                  .collection('osman')
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
